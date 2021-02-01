@@ -8,6 +8,8 @@
 - [Prolog Basics](#prolog-basics)
   - [Facts](#facts)
   - [Rules](#rules)
+  - [Lists](#lists)
+    - [Iterating Lists](#iterating-lists)
   - [Other Syntax](#other-syntax)
 
 
@@ -52,7 +54,7 @@ Here's a table to describe their syntax and an object-oriented equalivent:
 The interpreter that I use, and lots of people seem to recomment is [SWI-Prolog](https://www.swi-prolog.org/Download.html).
 
 in order to use, run `swipl` in a command prompt:<br>
-```
+```bash
 > swipl
 ```
 
@@ -66,7 +68,7 @@ Note: ALL commands (in interactive console or in `.pl` file) must end in `.` or 
 Ways to get info about your database.
 
 Syntax: `?- predicate(argument_1, [argument_2, ...])`
-```
+```prolog
 ?- male(ben).
 true.
 
@@ -87,7 +89,7 @@ Syntax: `relation(entity1, entity2, ....k'th entity).`
 
 Think of `r(X, Y)` as "X is an r of Y"
 
-```
+```prolog
 male(Ben)
 age(Ben, 21)
 parent(Jeff, Ben)
@@ -98,12 +100,50 @@ Syntax: `predicate(argument_1, [arg_2, ...]) :- pred_2(arg_3, ...), pred_3(arg_4
 
 It is a way to define a relation as long as other relations are true. You can think of `r(X, Y) :- r1(X), r2(Y)' as "X is a Y if X is an r1, and Y is an r2".
 
-```
+```prolog
 father(X, Y) :- parent(X, Y), male(X).
 
 % recursion works too:
 ancestor(X, Y) :- parent(X,Y).
 ancestor(X, Y) :- parent(X, Z), ancestor(Z, Y).
+```
+
+#### Lists
+Syntax: 
+- `[]` (empty list)
+- `[Head | Tail]`
+- `[t]` (which is really `[t | []]`)
+- `[t1,t2...]` (which is really `[t1 | [t2 | [t3]]`)
+
+Lists are either empty lists, or they are made up of two parts: a head and a tail. The head is a term, and the tail is another list (sometimes an empty one).
+
+##### Iterating lists
+Lists can be queried and manipulated using predicates and rules. The basic way to iterate through a list is to have a recusive rule that has some base case with an empty list, and a recursive step of passing the tail of the list into itself. It's expressed like this:
+```prolog
+iterate([]). % base case: when you try to iterate through an empty list, you're done. Return true.
+iterate([Head | Tail]) :- iterate(Tail). % recursive step: plug the tail back into the predicate.
+```
+(iterate() is actually a rule that checks if what you plug into it is a list, as opposed to just an atom or a number.)
+
+expressed in C++, it would look like this:
+```cpp
+bool iterate(list) {
+
+  // iterate([]).
+  if (list == []) {
+    return true
+  }
+
+  // iterate([Head | Tail]) :- iterate(Tail).
+  return iterate(list.Tail)
+}
+```
+
+You could have other terms for variables if you like as well. Here's a rule that checks if a term is in the list:
+
+```prolog
+member(Head, [Head|Tail]). % the head of a list is in the list.
+member(Term, [Head|Tail]) :- member(Term, Tail). % Term is a member if it's a member of the tail.
 ```
 
 #### Other Syntax
