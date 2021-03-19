@@ -1,3 +1,5 @@
+<p style="text-align: center">+JMJ+</p>
+
 ## Java Script
 
 [Arrow Functions](#arrow-functions)  

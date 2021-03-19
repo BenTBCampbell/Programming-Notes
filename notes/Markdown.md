@@ -1,3 +1,5 @@
+<p style="text-align: center">+JMJ+</p>
+
 ## Markdown
 
 [markdownguide.org](https://www.markdownguide.org/) is very useful for markdown notes.

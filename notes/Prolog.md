@@ -1,4 +1,5 @@
-+JMJ+
+<p style="text-align: center">+JMJ+</p>
+
 ## Prolog
 
 - [Basic Defintions](#basic-defintions)
